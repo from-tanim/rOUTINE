@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Routine</title>
+  <style>
+    body {
+      background-color: #013220; /* Deep green background */
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 700px;
+      padding: 20px;
+      border: 2px solid white;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .schedule {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .schedule li {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid white;
+      border-radius: 5px;
+    }
+    .schedule li.active {
+      background-color: #a8e6cf; /* Highlight color */
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Routine</h1>
+    <ul class="schedule">
+      <li data-start="1:00" data-end="3:00">1:00 AM - 3:00 AM: Sleep/Rest</li>
+      <li data-start="3:00" data-end="3:30">3:00 AM - 3:30 AM: Shower</li>
+      <li data-start="4:00" data-end="5:00">4:00 AM - 5:00 AM: Prayer</li>
+      <li data-start="5:00" data-end="5:30">5:00 AM - 5:30 AM: GK</li>
+      <li data-start="5:30" data-end="6:10">5:30 AM - 6:10 AM: Fajr</li>
+      <li data-start="6:10" data-end="6:40">6:10 AM - 6:40 AM: Quran</li>
+      <li data-start="6:40" data-end="8:40">6:40 AM - 8:40 AM: Math</li>
+      <li data-start="8:40" data-end="9:40">8:40 AM - 9:40 AM: English</li>
+      <li data-start="9:40" data-end="11:40">9:40 AM - 11:40 AM: Coaching Revise</li>
+      <li data-start="11:40" data-end="12:00">11:40 AM - 12:00 PM: Shower</li>
+      <li data-start="12:00" data-end="13:00">12:00 PM - 1:00 PM: ICT/Bangla</li>
+      <li data-start="13:00" data-end="13:40">1:00 PM - 1:40 PM: Duhr</li>
+      <li data-start="15:00" data-end="17:00">3:00 PM - 5:00 PM: Physics</li>
+      <li data-start="18:00" data-end="21:00">6:00 PM - 9:00 PM: Biology</li>
+    </ul>
+  </div>
+
+  <script>
+    function updateHighlight() {
+      const now = new Date();
+      const currentTime = now.getHours() * 60 + now.getMinutes();
+
+      const items = document.querySelectorAll(".schedule li");
+
+      items.forEach(item => {
+        const [startHour, startMinute] = item.dataset.start.split(":").map(Number);
+        const [endHour, endMinute] = item.dataset.end.split(":").map(Number);
+
+        const startTime = startHour * 60 + startMinute;
+        const endTime = endHour * 60 + endMinute;
+
+        if (currentTime >= startTime && currentTime < endTime) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    }
+
+    setInterval(updateHighlight, 1000); // Check every second
+    updateHighlight(); // Run immediately on load
+  </script>
+</body>
+</html>
