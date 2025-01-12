@@ -6,7 +6,7 @@
   <title>Daily Routine</title>
   <style>
     body {
-      background-color: #013220; /* Deep green background */
+      background-color: #127e20; /* Deep green background */
       color: white;
       font-family: Arial, sans-serif;
       margin: 0;
@@ -50,7 +50,7 @@
   <div class="container">
     <h1>Daily Routine</h1>
     <ul class="schedule">
-      <li data-start="21:00" data-end="3:00">9:00 AM - 3:00 AM: Sleep/Rest</li>
+      <li data-start="21:00" data-end="3:00">9:00 PM - 3:00 AM: Sleep/Rest</li>
       <li data-start="3:00" data-end="3:30">3:00 AM - 3:30 AM: Shower</li>
       <li data-start="4:00" data-end="5:00">4:00 AM - 5:00 AM: Prayer</li>
       <li data-start="5:00" data-end="5:30">5:00 AM - 5:30 AM: GK</li>
@@ -68,6 +68,19 @@
   </div>
 
   <script>
+    function parseTime(timeStr) {
+      const [hours, minutes] = timeStr.split(":").map(Number);
+      return hours * 60 + minutes;
+    }
+
+    function isTimeInRange(currentTime, startTime, endTime) {
+      if (endTime < startTime) {
+        // Handle intervals that span midnight
+        return currentTime >= startTime || currentTime < endTime;
+      }
+      return currentTime >= startTime && currentTime < endTime;
+    }
+
     function updateHighlight() {
       const now = new Date();
       const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -75,13 +88,10 @@
       const items = document.querySelectorAll(".schedule li");
 
       items.forEach(item => {
-        const [startHour, startMinute] = item.dataset.start.split(":").map(Number);
-        const [endHour, endMinute] = item.dataset.end.split(":").map(Number);
+        const startTime = parseTime(item.dataset.start);
+        const endTime = parseTime(item.dataset.end);
 
-        const startTime = startHour * 60 + startMinute;
-        const endTime = endHour * 60 + endMinute;
-
-        if (currentTime >= startTime && currentTime < endTime) {
+        if (isTimeInRange(currentTime, startTime, endTime)) {
           item.classList.add("active");
         } else {
           item.classList.remove("active");
@@ -90,7 +100,4 @@
     }
 
     setInterval(updateHighlight, 1000); // Check every second
-    updateHighlight(); // Run immediately on load
-  </script>
-</body>
-</html>
+    updat
