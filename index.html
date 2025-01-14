@@ -38,9 +38,10 @@
       padding: 10px;
       border: 1px solid white;
       border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
     }
     .schedule li.active {
-      background-color: #a8e6cf; /* Highlight color */
+      background-color: #d61212; /* Highlight color */
       color: rgb(16, 194, 234);
       font-weight: bold;
     }
@@ -100,4 +101,7 @@
     }
 
     setInterval(updateHighlight, 1000); // Check every second
-    updat
+    updateHighlight(); // Initial call to highlight the current activity
+  </script>
+</body>
+</html>
