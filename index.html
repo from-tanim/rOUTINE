@@ -82,11 +82,18 @@
       return currentTime >= startTime && currentTime < endTime;
     }
 
+    function sendNotification(message) {
+      if (Notification.permission === "granted") {
+        new Notification("Daily Routine", { body: message });
+      }
+    }
+
     function updateHighlight() {
       const now = new Date();
       const currentTime = now.getHours() * 60 + now.getMinutes();
 
       const items = document.querySelectorAll(".schedule li");
+      let activeActivity = null;
 
       items.forEach(item => {
         const startTime = parseTime(item.dataset.start);
@@ -94,8 +101,24 @@
 
         if (isTimeInRange(currentTime, startTime, endTime)) {
           item.classList.add("active");
+          activeActivity = item.textContent.trim();
         } else {
           item.classList.remove("active");
+        }
+      });
+
+      // Notify user if the activity changes
+      if (activeActivity && activeActivity !== window.lastActiveActivity) {
+        sendNotification(activeActivity);
+        window.lastActiveActivity = activeActivity;
+      }
+    }
+
+    // Request notification permission
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission !== "granted") {
+          alert("Notifications are disabled. Enable them to receive activity alerts.");
         }
       });
     }
